@@ -5,7 +5,7 @@ import groovy.transform.ToString
 /**
  * Created by aglover on 12/8/13.
  */
-@ToString
+@ToString(excludes='json')
 class EchelonDelegate {
     String message
     String queueName
