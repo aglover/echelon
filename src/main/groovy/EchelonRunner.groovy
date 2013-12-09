@@ -1,13 +1,13 @@
-/**
- * Created by aglover on 12/8/13.
- */
+import org.codehaus.groovy.control.CompilerConfiguration
 
-def binding = new EchelonBinding()
+def compilerConfiguration = new CompilerConfiguration()
+compilerConfiguration.scriptBaseClass = DelegatingScript.class.name
+def shell = new GroovyShell(this.class.classLoader, new Binding(), compilerConfiguration)
 
-def shell = new GroovyShell(binding)
+def script = shell.parse("send 'this is a test' to 'queue_test' using 'key','secret'")
+script.setDelegate(new EchelonDelegate())
+script.run()
 
-shell.evaluate("send 'this is a test' to 'queue_test' using 'key','secret'")
-
-println "\n"
-
-shell.evaluate(new File("SQSExample.groovy"))
+def script2 = shell.parse(new File("SQSExample.groovy"))
+script2.setDelegate(new EchelonDelegate())
+script2.run()

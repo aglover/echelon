@@ -1,4 +1,7 @@
+import groovy.json.JsonBuilder
 import groovy.transform.ToString
+
+
 /**
  * Created by aglover on 12/8/13.
  */
@@ -9,17 +12,23 @@ class EchelonDelegate {
     String key
     String secret
 
-    EchelonDelegate send(message){
+    JsonBuilder json
+
+    EchelonDelegate() {
+        json = new JsonBuilder()
+    }
+
+    EchelonDelegate send(message) {
         this.message = message.toString()
         return this
     }
 
-    EchelonDelegate to(String queueName){
+    EchelonDelegate to(String queueName) {
         this.queueName = queueName
         return this
     }
 
-    void using(String key, String secret){
+    void using(String key, String secret) {
         this.key = key
         this.secret = secret
 

@@ -2,9 +2,6 @@
  * Created by aglover on 12/8/13.
  */
 
-
-def json = new groovy.json.JsonBuilder()
-
 json.message {
     name "Andrew Glover"
     age 37
