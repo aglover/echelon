@@ -1,6 +1,3 @@
-/**
- * Created by aglover on 12/8/13.
- */
 
 using 'key','secret'
 
