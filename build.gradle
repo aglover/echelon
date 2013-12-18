@@ -2,11 +2,15 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 
+version = '1.0.0'
+group = 'com.github.aglover'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.2.1'
+    compile 'org.codehaus.groovy:groovy-all:2.2.1', 'com.github.aglover:ahoy:1.0.1'
+    testCompile 'org.spockframework:spock-maven:0.7-groovy-2.0'
 }
 
