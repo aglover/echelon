@@ -19,7 +19,12 @@ class EchelonRunner {
         def compilerConfiguration = new CompilerConfiguration()
         compilerConfiguration.scriptBaseClass = DelegatingScript.class.name
         GroovyShell shell = new GroovyShell(this.class.classLoader, new Binding(), compilerConfiguration)
-        Script script = shell.parse(dsl)
+        Script script = null;
+        if (dsl.endsWith('.groovy')) { //must be a script
+            script = shell.parse(new File(dsl))
+        } else {
+            script = shell.parse(dsl)
+        }
         script.setDelegate(this.delegate)
         script.run()
     }

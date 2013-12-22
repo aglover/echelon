@@ -38,6 +38,24 @@ send json to "new_customer"
         delegate.authentication['secret'] == 'isecret'
     }
 
+    def 'A script path can be sent to the run command'() {
+        given:
+        def runner = new EchelonRunner()
+        runner.setDelegate(delegate)
+
+        when:
+        runner.run('./src/main/resources/SQSExample2.groovy')
+
+        then:
+        delegate.toCalled == true
+        delegate.sendCalled == true
+        delegate.usingCalled == true
+        delegate.queueName == 'new_customer_queue'
+        delegate.authentication['key'] == 'key'
+        delegate.authentication['secret'] == 'secret'
+        delegate.messageReceived != null
+    }
+
     def 'A missing field value will return false for validation'() {
         given:
         def delegate = new EchelonDelegate()
@@ -48,6 +66,25 @@ send json to "new_customer"
         then:
         delegate.'queueName' == 'test_queue'
         delegate.fieldsValidate() == false
+    }
+
+    def 'A simple string can be the dsl'() {
+        given:
+        def dsl = "using 'key','secret' send 'this is a test' to 'queue_test'"
+        def runner = new EchelonRunner()
+        runner.setDelegate(delegate)
+
+        when:
+        runner.run(dsl)
+
+        then:
+        delegate.toCalled == true
+        delegate.sendCalled == true
+        delegate.usingCalled == true
+        delegate.queueName == 'queue_test'
+        delegate.authentication['key'] == 'key'
+        delegate.authentication['secret'] == 'secret'
+        delegate.messageReceived == 'this is a test'
     }
 
     def 'All field values filled out will return true for validation'() {
